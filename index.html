@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    outline: none;
+    font-family: monospace;
+}
+
+body{
+    overflow: hidden;
+    background-color: #d2cfc8;
+	cursor: grab;
+}
+
+.webgl, 
+#loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#loader{
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #FAEDCD;
+}
+    </style>
+    <title>Diorama</title>
+</head>
+<body>
+    
+<canvas class="webgl"></canvas>
+<div id="loader">
+    <h1>Loading</h1>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.min.js"></script>
+<script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://unpkg.com/three@0.126.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+
+  const loading = document.querySelector('#loader')
+
+const canvas = document.querySelector('.webgl')
+const scene = new THREE.Scene()
+const textureLoader = new THREE.TextureLoader()
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+
+// Base camera
+const camera = new THREE.PerspectiveCamera(10, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 8
+camera.position.y = 4
+camera.position.z = 15
+scene.add(camera)
+
+//Controls
+const controls = new THREE.OrbitControls(camera, canvas)
+controls.enableDamping = true
+controls.enableZoom = true
+controls.enablePan = true
+controls.minDistance = 21
+controls.maxDistance = 50
+controls.minPolarAngle = Math.PI / 5
+controls.maxPolarAngle = Math.PI / 2
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true
+})
+
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.outputEncoding = THREE.sRGBEncoding
+  
+</script>
+  
+</body>
+</html>
